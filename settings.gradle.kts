@@ -1,0 +1,1 @@
+rootProject.name = "ir.saharapps.foodie_ktor_backend"
