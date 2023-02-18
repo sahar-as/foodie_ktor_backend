@@ -1,13 +1,11 @@
 package ir.saharapps.plugins
 
 import io.ktor.server.routing.*
-import io.ktor.server.response.*
 import io.ktor.server.application.*
+import ir.saharapps.routes.getAllFood
 
 fun Application.configureRouting() {
     routing {
-        get("/") {
-            call.respondText("Hello World!")
-        }
+        getAllFood()
     }
 }
