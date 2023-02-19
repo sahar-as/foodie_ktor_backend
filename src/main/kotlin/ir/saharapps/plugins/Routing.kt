@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import ir.saharapps.repository.FoodDaoInterfaceImp
 import ir.saharapps.routes.addDish
 import ir.saharapps.routes.getAllFood
+import ir.saharapps.routes.getFoodById
 import org.jetbrains.exposed.sql.Database
 
 fun Application.configureRouting() {
@@ -15,5 +16,6 @@ fun Application.configureRouting() {
     routing {
         getAllFood(foodDao)
         addDish(foodDao)
+        getFoodById(foodDao)
     }
 }

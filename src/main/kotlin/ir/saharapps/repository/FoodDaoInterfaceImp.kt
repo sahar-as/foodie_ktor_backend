@@ -2,10 +2,8 @@ package ir.saharapps.repository
 
 import ir.saharapps.model.Food
 import ir.saharapps.model.FoodTable
-import org.jetbrains.exposed.sql.Database
-import org.jetbrains.exposed.sql.SchemaUtils
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
@@ -27,6 +25,16 @@ class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
             Unit
         }
     }
+    override fun getFoodById(foodId: Int): Food? =
+        transaction(db){
+            FoodTable.select{FoodTable.id eq foodId}.map{
+                Food(
+                    it[FoodTable.id], it[FoodTable.name], it[FoodTable.ingredient],
+                    it[FoodTable.image], it[FoodTable.cost], it[FoodTable.rank],
+                    it[FoodTable.isAvailable], it[FoodTable.dishType]
+                )
+            }.singleOrNull()
+        }
 
     override fun getAllFood(): List<Food> =
         transaction(db) {
@@ -40,12 +48,24 @@ class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
         }
 
 
-
-    override fun updateFood() {
-        TODO("Not yet implemented")
+    override fun updateFood(currentFoodId: Int, newFood: Food) {
+        transaction(db){
+            FoodTable.update ({ FoodTable.id eq currentFoodId }) {
+                it[name] = newFood.name
+                it[ingredient] = newFood.ingredient
+                it[image] = newFood.image
+                it[cost] = newFood.cost
+                it[rank] = newFood.rank
+                it[isAvailable] = newFood.isAvailable
+                it[dishType] = newFood.dishType
+            }
+        }
     }
 
-    override fun deleteFood() {
-        TODO("Not yet implemented")
+    override fun deleteFood(foodId: Int) {
+        transaction(db){
+            FoodTable.deleteWhere{FoodTable.id eq foodId}
+        }
+        Unit
     }
 }
