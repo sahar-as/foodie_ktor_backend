@@ -14,7 +14,7 @@ class HashingInterfaceImp: HashingInterface {
         )
     }
 
-    override fun verifyPassword(value: String, saltedHash: SaltedHash): Boolean {
-        return DigestUtils.sha256Hex(saltedHash.salt + value) == saltedHash.hash
+    override fun verifyPassword(password: String, saltedHash: SaltedHash): Boolean {
+        return DigestUtils.sha256Hex(saltedHash.salt + password) == saltedHash.hash
     }
 }

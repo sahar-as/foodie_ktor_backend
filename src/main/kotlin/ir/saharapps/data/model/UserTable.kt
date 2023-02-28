@@ -11,4 +11,5 @@ object UserTable: Table() {
     val salt = varchar("salt", 100)
 
     override val primaryKey = PrimaryKey(phoneNumber)
+
 }
