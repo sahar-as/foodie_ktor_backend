@@ -1,12 +1,12 @@
 package ir.saharapps.repository
 
-import ir.saharapps.model.Food
-import ir.saharapps.model.FoodTable
+import ir.saharapps.data.model.Food
+import ir.saharapps.data.model.FoodTable
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
-class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
+class FoodDaoInterfaceImp(private val db: Database): FoodDaoInterface {
     override fun init() = transaction(db) {
         SchemaUtils.create(FoodTable)
     }
@@ -27,7 +27,7 @@ class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
     }
     override fun getFoodById(foodId: Int): Food? =
         transaction(db){
-            FoodTable.select{FoodTable.id eq foodId}.map{
+            FoodTable.select{ FoodTable.id eq foodId}.map{
                 Food(
                     it[FoodTable.id], it[FoodTable.name], it[FoodTable.ingredient],
                     it[FoodTable.image], it[FoodTable.cost], it[FoodTable.rank],
@@ -64,7 +64,7 @@ class FoodDaoInterfaceImp(val db: Database): FoodDaoInterface {
 
     override fun deleteFood(foodId: Int) {
         transaction(db){
-            FoodTable.deleteWhere{FoodTable.id eq foodId}
+            FoodTable.deleteWhere{ FoodTable.id eq foodId}
         }
         Unit
     }

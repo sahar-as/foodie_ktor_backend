@@ -1,6 +1,6 @@
 package ir.saharapps.repository
 
-import ir.saharapps.model.Food
+import ir.saharapps.data.model.Food
 
 interface FoodDaoInterface {
     fun init()

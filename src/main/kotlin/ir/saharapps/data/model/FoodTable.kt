@@ -1,4 +1,4 @@
-package ir.saharapps.model
+package ir.saharapps.data.model
 
 import org.jetbrains.exposed.sql.Table
 
