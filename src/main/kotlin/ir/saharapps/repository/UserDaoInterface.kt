@@ -4,7 +4,7 @@ import ir.saharapps.data.model.User
 
 interface UserDaoInterface {
     fun init()
-    fun addUserPhone(user: User): User?
+    fun addUser(user: User): Boolean
     fun updateUserInfo(user: User): User?
     fun getUserByPhone(phoneNumber: String): User?
 }
