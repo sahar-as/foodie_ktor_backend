@@ -1,0 +1,6 @@
+package ir.saharapps.security.hashing
+
+interface HashingInterface {
+    fun generateSaltHash(value: String, saltLength: Int = 32): SaltedHash
+    fun verifyPassword(value: String, saltedHash: SaltedHash): Boolean
+}
