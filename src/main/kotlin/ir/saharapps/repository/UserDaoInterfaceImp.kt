@@ -17,6 +17,8 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
                 it[userName] = user.userName
                 it[password] = user.password
                 it[salt] = user.salt
+                it[userId] = user.userId
+                it[userAddress] = "null"
             }
         }
 
@@ -44,5 +46,15 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
                     it[UserTable.userId], it[UserTable.userAddress], it[UserTable.salt]
                 )
             }.singleOrNull()
+        }
+
+    override fun getAllUsers(): List<User>? =
+        transaction(db){
+            UserTable.selectAll().map{
+                User(
+                    it[UserTable.phoneNumber], it[UserTable.userName], it[UserTable.password],
+                    it[UserTable.userId], it[UserTable.userAddress], it[UserTable.salt]
+                )
+            }
         }
 }

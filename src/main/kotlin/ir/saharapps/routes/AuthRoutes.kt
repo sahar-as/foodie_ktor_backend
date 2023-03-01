@@ -18,11 +18,10 @@ import ir.saharapps.security.token.TokenClaim
 import ir.saharapps.security.token.TokenConfig
 import ir.saharapps.security.token.TokenInterface
 import ir.saharapps.util.GenerateRandomString
-import org.apache.commons.codec.digest.DigestUtils
 
 fun Route.signup(
     hashing: HashingInterface,
-    userData: UserDaoInterface,
+    userDao: UserDaoInterface,
     randomString: GenerateRandomString
 ){
     post("/signup"){
@@ -47,7 +46,7 @@ fun Route.signup(
             userId = randomString.generate()
         )
 
-        val insertStatus = userData.addUser(user)
+        val insertStatus = userDao.addUser(user)
         if(!insertStatus){
             call.respond(HttpStatusCode.Conflict)
             return@post
@@ -59,11 +58,11 @@ fun Route.signup(
 
 fun Route.signIn(
     hashing: HashingInterface,
-    userData: UserDaoInterface,
+    userDao: UserDaoInterface,
     tokenInterface: TokenInterface,
     tokenConfig: TokenConfig
 ){
-    post("/signIn"){
+    post("/signin"){
         val request = call.receiveNullable<LoginRequest>() ?: kotlin.run {
             call.respond(HttpStatusCode.BadRequest)
             return@post
@@ -76,7 +75,7 @@ fun Route.signIn(
             return@post
         }
 
-        val findUser = userData.getUserByPhone(request.phoneNumber)
+        val findUser = userDao.getUserByPhone(request.phoneNumber)
         if (findUser == null){
             call.respond(HttpStatusCode.Conflict, "No user found with this phone number")
             return@post
@@ -112,8 +111,14 @@ fun Route.getSecretInfo(){
     authenticate {
         get("secret"){
             val principal = call.principal<JWTPrincipal>()
-            val userId = principal?.getClaim("userId", String::class)
+            val userId = principal?.getClaim("UserId", String::class)
             call.respond(HttpStatusCode.OK, "your user Id is $userId")
         }
+    }
+}
+
+fun Route.getAllUsers(userDao: UserDaoInterface){
+    get("/getAllUsers"){
+        call.respond(mapOf("getAllUsers" to userDao.getAllUsers()))
     }
 }

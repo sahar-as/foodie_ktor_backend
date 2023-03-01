@@ -8,7 +8,7 @@ data class User(
     val phoneNumber: String,
     val userName: String,
     val password: String,
-    val userId: String = "" ,
-    val userAddress: String = "",
+    val userId: String,
+    val userAddress: String = "null",
     val salt: String,
 )
