@@ -7,10 +7,10 @@ import io.ktor.server.routing.*
 import ir.saharapps.data.model.Food
 import ir.saharapps.repository.FoodDaoInterfaceImp
 
-fun Route.addDish(foodDao: FoodDaoInterfaceImp){
-    post("/food"){
-        val newFood = call.receive<Food>()
-        val insertedFood = foodDao.addFood(newFood)
-        call.respond(insertedFood)
-    }
-}
+//fun Route.addDish(foodDao: FoodDaoInterfaceImp){
+//    post("/food"){
+//        val newFood = call.receive<Food>()
+//        val insertedFood = foodDao.addFood(newFood)
+//        call.respond(insertedFood)
+//    }
+//}

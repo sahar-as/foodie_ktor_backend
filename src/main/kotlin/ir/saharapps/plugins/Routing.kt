@@ -25,14 +25,17 @@ fun Application.configureRouting(
     userDao.init()
 
     routing {
+        //FoodRoutes
         getAllFood(foodDao)
         addDish(foodDao)
         getFoodById(foodDao)
 
+        //UserRoutes
         signup(hashing, userDao, randomString)
         signIn(hashing, userDao,token, tokenConfig)
         authentication()
         getSecretInfo()
         getAllUsers(userDao)
+        getUserInfo(userDao)
     }
 }
