@@ -122,3 +122,21 @@ fun Route.getAllUsers(userDao: UserDaoInterface){
         call.respond(mapOf("getAllUsers" to userDao.getAllUsers()))
     }
 }
+
+fun Route.getUserInfo(userDao: UserDaoInterface){
+    get("/getUserInfo/{userId}"){
+        val userId = call.parameters["userId"]
+        if (userId == null){
+            call.respond(HttpStatusCode.BadRequest, "User Id is not valid")
+            return@get
+        }
+
+        val user = userDao.getUserByUserId(userId)
+        if(user == null){
+            call.respond(HttpStatusCode.NotFound, "There isn't any user with this Id")
+            return@get
+        }
+
+        call.respond(user)
+    }
+}

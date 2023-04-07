@@ -7,5 +7,6 @@ interface UserDaoInterface {
     fun addUser(user: User): Boolean
     fun updateUserInfo(user: User): User?
     fun getUserByPhone(phoneNumber: String): User?
+    fun getUserByUserId(userId: String): User?
     fun getAllUsers(): List<User>?
 }

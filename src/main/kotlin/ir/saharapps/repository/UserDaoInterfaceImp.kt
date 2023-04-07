@@ -48,6 +48,16 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
             }.singleOrNull()
         }
 
+    override fun getUserByUserId(userId: String): User? =
+        transaction(db) {
+            UserTable.select {UserTable.userId eq userId}.map {
+                User(
+                    it[UserTable.phoneNumber], it[UserTable.userName], it[UserTable.password],
+                    it[UserTable.userId], it[UserTable.userAddress], it[UserTable.salt]
+                )
+            }.singleOrNull()
+        }
+
     override fun getAllUsers(): List<User>? =
         transaction(db){
             UserTable.selectAll().map{
