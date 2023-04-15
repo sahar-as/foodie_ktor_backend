@@ -2,6 +2,7 @@ package ir.saharapps.plugins
 
 import io.ktor.server.routing.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import ir.saharapps.repository.FoodDaoInterfaceImp
 import ir.saharapps.repository.UserDaoInterfaceImp
 import ir.saharapps.routes.*
@@ -37,5 +38,9 @@ fun Application.configureRouting(
         getSecretInfo()
         getAllUsers(userDao)
         getUserInfo(userDao)
+
+        static("/image") {
+            resources("image")
+        }
     }
 }
