@@ -39,3 +39,15 @@ fun Route.getFoodById(dao: FoodDaoInterfaceImp){
         call.respond(food)
     }
 }
+
+fun Route.deleteFoodById(dao: FoodDaoInterfaceImp){
+    delete("/deleteFood/{foodId}"){
+        val foodId = call.parameters["foodId"]?.toIntOrNull()
+        if (foodId == null){
+            call.respond(HttpStatusCode.BadRequest, "Food Id is not valid")
+            return@delete
+        }
+        dao.deleteFood(foodId)
+        call.respond(HttpStatusCode.OK)
+    }
+}

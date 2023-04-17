@@ -30,6 +30,7 @@ fun Application.configureRouting(
         getAllFood(foodDao)
         addDish(foodDao)
         getFoodById(foodDao)
+        deleteFoodById(foodDao)
 
         //UserRoutes
         signup(hashing, userDao, randomString)
