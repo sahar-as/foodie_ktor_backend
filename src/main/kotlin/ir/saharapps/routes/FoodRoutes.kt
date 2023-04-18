@@ -51,3 +51,14 @@ fun Route.deleteFoodById(dao: FoodDaoInterfaceImp){
         call.respond(HttpStatusCode.OK)
     }
 }
+
+fun Route.getFoodByDishType(dao: FoodDaoInterfaceImp){
+    get("/getFoodByDishType/{dishType}"){
+        val dishType = call.parameters["dishType"]?: ""
+        if (dishType.isEmpty()){
+            call.respond(HttpStatusCode.BadRequest, "Dish type is not valid")
+            return@get
+        }
+        call.respond(mapOf("getAllFood" to dao.getFoodByDishType(dishType)))
+    }
+}

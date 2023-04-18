@@ -36,6 +36,18 @@ class FoodDaoInterfaceImp(private val db: Database): FoodDaoInterface {
             }.singleOrNull()
         }
 
+    override fun getFoodByDishType(dishType: String): List<Food> =
+        transaction(db){
+            FoodTable.select{ FoodTable.dishType eq dishType}.map{
+                Food(
+                    it[FoodTable.id], it[FoodTable.name], it[FoodTable.ingredient],
+                    it[FoodTable.image], it[FoodTable.cost], it[FoodTable.rank],
+                    it[FoodTable.isAvailable], it[FoodTable.dishType]
+                )
+            }
+        }
+
+
     override fun getAllFood(): List<Food> =
         transaction(db) {
             FoodTable.selectAll().map {
