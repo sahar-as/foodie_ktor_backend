@@ -47,6 +47,16 @@ class FoodDaoInterfaceImp(private val db: Database): FoodDaoInterface {
             }
         }
 
+    override fun getFavFood(rank: Double) :List<Food> =
+        transaction(db){
+            FoodTable.select{ FoodTable.rank eq rank}.map{
+                Food(
+                    it[FoodTable.id], it[FoodTable.name], it[FoodTable.ingredient],
+                    it[FoodTable.image], it[FoodTable.cost], it[FoodTable.rank],
+                    it[FoodTable.isAvailable], it[FoodTable.dishType]
+                )
+            }
+        }
 
     override fun getAllFood(): List<Food> =
         transaction(db) {
