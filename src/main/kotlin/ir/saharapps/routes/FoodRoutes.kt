@@ -64,7 +64,7 @@ fun Route.getFoodByDishType(dao: FoodDaoInterfaceImp){
 }
 
 fun Route.getFavFoodList(dao: FoodDaoInterfaceImp){
-    get("getFavFood/{rank}"){
+    get("/getFavFood/{rank}"){
         val rank = call.parameters["rank"]?.toDoubleOrNull()
         if (rank == null){
             call.respond(HttpStatusCode.BadRequest, "rank is not valid")
