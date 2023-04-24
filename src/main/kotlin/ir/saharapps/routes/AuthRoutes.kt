@@ -140,28 +140,11 @@ fun Route.getUserInfo(userDao: UserDaoInterface){
     }
 }
 
-fun Route.updateUser(userDao: UserDaoInterface){
-    get("/updateUserPass/{phone}/{pass}"){
-        val phone = call.parameters["phone"]
-        val password = call.parameters["pass"]
-        if(phone == null || password == null){
-            call.respond(HttpStatusCode.BadRequest, "User Id is not valid")
-            return@get
-        }
-        val result = userDao.updateUserPass(phone, password)
-        if(result == null){
-            call.respond(HttpStatusCode.NotFound, "Update failed, try later")
-            return@get
-        }
-        call.respond(true)
-    }
-}
-
 fun Route.getUserByPhone(userDao: UserDaoInterface){
     get("/getUserByPhone/{phone}"){
         val phone = call.parameters["phone"]
         if(phone == null){
-            call.respond(HttpStatusCode.BadRequest, "User Id is not valid")
+            call.respond(HttpStatusCode.BadRequest, "Phone number is not valid")
             return@get
         }
         val user = userDao.getUserByPhone(phone)
@@ -170,5 +153,17 @@ fun Route.getUserByPhone(userDao: UserDaoInterface){
             return@get
         }
         call.respond(user)
+    }
+}
+
+fun Route.deleteUserByPhone(userDao: UserDaoInterface){
+    delete("deleteByPhone/{phone}"){
+        val phone = call.parameters["phone"]
+        if(phone == null){
+            call.respond(HttpStatusCode.BadRequest, "Phone number is not valid")
+            return@delete
+        }
+        userDao.deleteUserByPhone(phone)
+        call.respond(HttpStatusCode.OK)
     }
 }

@@ -41,7 +41,7 @@ fun Application.configureRouting(
         getSecretInfo()
         getAllUsers(userDao)
         getUserInfo(userDao)
-        updateUser(userDao)
+        deleteUserByPhone(userDao)
         getUserByPhone(userDao)
 
         static("/image") {

@@ -3,6 +3,7 @@ package ir.saharapps.repository
 import ir.saharapps.data.model.User
 import ir.saharapps.data.model.UserTable
 import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
@@ -38,15 +39,6 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
         return user
     }
 
-    override fun updateUserPass(phone: String, userPass: String): Boolean?{
-        transaction(db) {
-            UserTable.update ({UserTable.phoneNumber eq phone}) {
-                it[password] = userPass
-            }
-        }
-        return true
-    }
-
     override fun getUserByPhone(phoneNumber: String): User? =
         transaction(db) {
             UserTable.select {UserTable.phoneNumber eq phoneNumber}.map {
@@ -76,4 +68,13 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
                 )
             }
         }
+
+    override fun deleteUserByPhone(phoneNumber: String){
+        transaction(db){
+            UserTable.deleteWhere { UserTable.phoneNumber eq phoneNumber }
+        }
+        Unit
+    }
+
+
 }
