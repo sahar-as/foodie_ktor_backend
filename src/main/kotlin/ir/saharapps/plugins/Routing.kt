@@ -42,6 +42,7 @@ fun Application.configureRouting(
         getAllUsers(userDao)
         getUserInfo(userDao)
         updateUser(userDao)
+        getUserByPhone(userDao)
 
         static("/image") {
             resources("image")
