@@ -38,6 +38,15 @@ class UserDaoInterfaceImp(private val db : Database): UserDaoInterface {
         return user
     }
 
+    override fun updateUserPass(phone: String, userPass: String): Boolean?{
+        transaction(db) {
+            UserTable.update ({UserTable.phoneNumber eq phone}) {
+                it[password] = userPass
+            }
+        }
+        return true
+    }
+
     override fun getUserByPhone(phoneNumber: String): User? =
         transaction(db) {
             UserTable.select {UserTable.phoneNumber eq phoneNumber}.map {

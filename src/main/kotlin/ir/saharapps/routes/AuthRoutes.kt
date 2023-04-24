@@ -136,7 +136,23 @@ fun Route.getUserInfo(userDao: UserDaoInterface){
             call.respond(HttpStatusCode.NotFound, "There isn't any user with this Id")
             return@get
         }
-
         call.respond(user)
+    }
+}
+
+fun Route.updateUser(userDao: UserDaoInterface){
+    get("/updateUser/{phone}/{pass}"){
+        val phone = call.parameters["phone"]
+        val password = call.parameters["pass"]
+        if(phone == null || password == null){
+            call.respond(HttpStatusCode.BadRequest, "User Id is not valid")
+            return@get
+        }
+        val result = userDao.updateUserPass(phone, password)
+        if(result == null){
+            call.respond(HttpStatusCode.NotFound, "Update failed, try later")
+            return@get
+        }
+        call.respond(true)
     }
 }

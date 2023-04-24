@@ -41,6 +41,7 @@ fun Application.configureRouting(
         getSecretInfo()
         getAllUsers(userDao)
         getUserInfo(userDao)
+        updateUser(userDao)
 
         static("/image") {
             resources("image")
