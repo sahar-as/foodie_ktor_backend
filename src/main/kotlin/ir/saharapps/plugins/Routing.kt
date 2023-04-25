@@ -4,6 +4,7 @@ import io.ktor.server.routing.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
 import ir.saharapps.repository.FoodDaoInterfaceImp
+import ir.saharapps.repository.FoodOrderDaoInterfaceImp
 import ir.saharapps.repository.UserDaoInterfaceImp
 import ir.saharapps.routes.*
 import ir.saharapps.security.hashing.HashingInterface
@@ -25,6 +26,9 @@ fun Application.configureRouting(
     val userDao = UserDaoInterfaceImp(Database.connect("jdbc:h2:file:./build/db", driver = "org.h2.Driver"))
     userDao.init()
 
+    val foodOrderDao = FoodOrderDaoInterfaceImp(Database.connect("jdbc:h2:file:./build/db", driver = "org.h2.Driver"))
+    foodOrderDao.init()
+
     routing {
         //FoodRoutes
         getAllFood(foodDao)
@@ -43,6 +47,9 @@ fun Application.configureRouting(
         getUserInfo(userDao)
         deleteUserByPhone(userDao)
         getUserByPhone(userDao)
+
+        addFoodOrder(foodOrderDao)
+        getAllFoodOrderByPhone(foodOrderDao)
 
         static("/image") {
             resources("image")
